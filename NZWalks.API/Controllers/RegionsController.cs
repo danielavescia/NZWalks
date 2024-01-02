@@ -23,6 +23,8 @@ namespace NZWalks.API.Controllers
 
         }
 
+
+        //GET ALL REGIONS
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -45,6 +47,7 @@ namespace NZWalks.API.Controllers
 
         }
 
+        //GET ONE SPECIFIC REGION BY ID
         [HttpGet]
         [Route( "{id:Guid}" )]
         public IActionResult GetRegionById( [FromRoute] Guid id )
@@ -70,6 +73,7 @@ namespace NZWalks.API.Controllers
             return Ok( regionDto );
         }
 
+        //POST: CREATES ONE REGION
         [HttpPost]
         [Route( "id:Guid" )]
         public IActionResult CreateRegion( [FromBody] AddRegionDto regionDto )
@@ -91,16 +95,57 @@ namespace NZWalks.API.Controllers
             dbContext.SaveChanges();
 
             //creates DTO to show to the client
-            var regionDTO = new RegionDto 
-            { 
-              Id = regionDomainModel.Id,
-              Code =  regionDomainModel.Code,
-              Name = regionDomainModel.Name,
-              RegionImageUrl = regionDomainModel.RegionImageUrl
+            var regionDTO = new RegionDto
+            {
+                Id = regionDomainModel.Id,
+                Code = regionDomainModel.Code,
+                Name = regionDomainModel.Name,
+                RegionImageUrl = regionDomainModel.RegionImageUrl
             };
 
 
-            return CreatedAtAction(nameof( GetRegionById ), new { id = regionDTO.Id }, regionDTO );
+            return CreatedAtAction( nameof( GetRegionById ), new { id = regionDTO.Id }, regionDTO );
+        }
+
+
+        //Update specific region
+        [HttpPut]
+        [Route( "{id:Guid}" )]
+
+        public IActionResult UpdateRegion( [FromRoute] Guid id, [FromBody] UpdateRegionRequestDto regionDto )
+        {
+            //check if regions exists
+            var regionDomainModel = dbContext.Regions.FirstOrDefault( x => x.Id == id );
+
+            if ( regionDomainModel == null )
+            {
+                return NotFound();
+            }
+
+            //Updating and mapping DTO values to Domain Model
+            regionDomainModel.Code = regionDto.Code;
+            regionDomainModel.Name = regionDto.Name;
+            regionDomainModel.RegionImageUrl = regionDto.RegionImageUrl;
+
+            //creates region and saves the changes
+            dbContext.SaveChanges();
+
+            //Convert Domain model to DTO 
+
+            var updateRegionDTO = new RegionDto
+            {
+                Id = regionDomainModel.Id,
+                Code = regionDomainModel.Code,
+                Name = regionDomainModel.Name,
+                RegionImageUrl = regionDomainModel.RegionImageUrl
+            };
+
+            return Ok( updateRegionDTO );
         }
     }
+           
 }
+
+
+
+

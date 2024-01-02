@@ -6,9 +6,9 @@ namespace NZWalks.API.Data
     public class NzWalksDbContext : DbContext
     {
         //constructor
-        public NzWalksDbContext(DbContextOptions dbContextOptions): base ( dbContextOptions )
+        public NzWalksDbContext( DbContextOptions dbContextOptions ) : base( dbContextOptions )
         {
-            
+
         }
 
         /*dbSets: propriety of  DB context class
