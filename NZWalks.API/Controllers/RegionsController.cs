@@ -73,7 +73,7 @@ namespace NZWalks.API.Controllers
             return Ok( regionDto );
         }
 
-        //POST: CREATES ONE REGION
+        //POST: CREATES NEW REGION
         [HttpPost]
         [Route( "id:Guid" )]
         public IActionResult CreateRegion( [FromBody] AddRegionDto regionDto )
@@ -108,7 +108,7 @@ namespace NZWalks.API.Controllers
         }
 
 
-        //Update specific region
+        //UPDATE DATA OF SPECIFIC REGION
         [HttpPut]
         [Route( "{id:Guid}" )]
 
@@ -142,8 +142,39 @@ namespace NZWalks.API.Controllers
 
             return Ok( updateRegionDTO );
         }
+
+        //DELETE REGION BY ID
+
+        [HttpDelete]
+        [Route( "{id:Guid}" )]
+
+        public IActionResult DeleteRegion( [FromRoute] Guid id )
+        {
+            var regionDomainModel = dbContext.Regions.FirstOrDefault( x => x.Id == id );
+
+            if ( regionDomainModel == null ) 
+            { 
+                return NotFound();
+            }
+
+            dbContext.Regions.Remove( regionDomainModel );
+
+            //creates region and saves the changes
+            dbContext.SaveChanges();
+
+            //return deleted regions back
+            var deleteRegionDTO = new RegionDto
+            {
+                Id = regionDomainModel.Id,
+                Code = regionDomainModel.Code,
+                Name = regionDomainModel.Name,
+                RegionImageUrl = regionDomainModel.RegionImageUrl
+            };
+
+            return Ok( deleteRegionDTO );
+        }
+
     }
-           
 }
 
 
