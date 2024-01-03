@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "c33nuuEvyqfKO98w4wKcdY+2MtzqYIyzOZHTAdp7+VnaNsfoLPC705Cz2Vn40Ud+WrTAViNT6Qx/hX+Z6/0D4A==",
+  "dgSpecHash": "yNB5MsAXxm4+N+WRSNWwCsT6AmQkDbyje00nsjbTry6d2H4vRMaRwkqkzhDeXBZYO1jgoyJFeH5EmKJJrQIIuQ==",
   "success": true,
   "projectFilePath": "E:\\Dani\\Dani\\SI\\Unisinos\\2- Meus_Projetos\\NZWalks\\NZWalks.API\\NZWalks.API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\danie\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\danie\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\danie\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\danie\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
     "C:\\Users\\danie\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
