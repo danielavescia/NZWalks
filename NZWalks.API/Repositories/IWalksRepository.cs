@@ -7,7 +7,7 @@ namespace NZWalks.API.Repositories
         //GET METHOD THAT WILL BE USED BY THE CONTROLLER
         Task<List <Walk>> GetAllAsync();
 
-        Task<Walk> GetWalknByIdAsync( Guid id );
+        Task<Walk?> GetWalkByIdAsync( Guid id );
 
         Task<Walk> CreateWalkAsync( Walk walk );
 

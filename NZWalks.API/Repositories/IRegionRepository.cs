@@ -5,9 +5,9 @@ namespace NZWalks.API.Repositories
     public interface IRegionRepository
     {
         //GET METHOD THAT WILL BE USED BY THE CONTROLLER
-       Task<List<Region>> GetAllAsync();
+        Task<List<Region>> GetAllAsync();
 
-       Task<Region> GetRegionByIdAsync( Guid id);
+        Task<Region> GetRegionByIdAsync( Guid id);
 
         Task<Region> CreateRegionAsync( Region region);
 

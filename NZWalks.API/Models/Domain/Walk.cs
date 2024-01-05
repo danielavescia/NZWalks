@@ -10,6 +10,7 @@
         public Guid DifficultyId { get; set; }
         public Guid RegionId { get; set; }
 
+
         //Navigation properties - Entity framework association between entities
         public Difficulty Difficulty { get; set; }
         public Region Region { get; set; }

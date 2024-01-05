@@ -11,7 +11,10 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen( options =>
+{
+    options.ResolveConflictingActions( apiDescriptions => apiDescriptions.First() );
+} );
 
 builder.Services.AddDbContext<NzWalksDbContext>( options =>
 {

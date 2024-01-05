@@ -1,7 +1,7 @@
 ﻿using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 using Microsoft.EntityFrameworkCore;
-
+using NZWalks.API.Models.DTO;
 
 namespace NZWalks.API.Repositories
 {
@@ -22,24 +22,42 @@ namespace NZWalks.API.Repositories
             return walk;
         }
 
-        public Task<Walk?> DeleteWalkAsync( Guid id )
+        public async Task<Walk?> DeleteWalkAsync( Guid id )
         {
             throw new NotImplementedException();
         }
 
         public async Task<List<Walk>> GetAllAsync()
+
         {
-            return await dbContext.Walks.ToListAsync();
+            //include method get Difficulty and Region data by the navigation property define in WALK Domain Model
+            return await dbContext.Walks.Include("Difficulty").Include( "Region" ).ToListAsync();
         }
 
-        public Task<Walk> GetWalknByIdAsync( Guid id )
+        public async Task<Walk?> GetWalkByIdAsync( Guid id )
         {
-            throw new NotImplementedException();
+            return await dbContext.Walks.Include( "Difficulty" ).Include( "Region" ).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<Walk?> UpdateWalknAsync( Guid id, Walk walk )
+        public async Task<Walk?> UpdateWalknAsync( Guid id, Walk walk )
         {
-            throw new NotImplementedException();
+            var existingWalk = await dbContext.Walks.FirstOrDefaultAsync( x => x.Id == id );
+
+            if ( existingWalk != null ) 
+            {
+                return null;
+            }
+
+            existingWalk.NameTrail = walk.NameTrail;
+            existingWalk.Description = walk.Description;
+            existingWalk.WalkImageUrl = walk.WalkImageUrl;
+            existingWalk.Length = walk.Length;
+            existingWalk.DifficultyId = walk.DifficultyId;
+            existingWalk.RegionId = walk.RegionId;
+
+            dbContext.SaveChangesAsync();
+
+            return existingWalk;
         }
     }
 }
