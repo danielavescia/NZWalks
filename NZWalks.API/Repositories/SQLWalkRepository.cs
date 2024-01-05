@@ -15,18 +15,8 @@ namespace NZWalks.API.Repositories
             this.dbContext = dbContext;
 
         }
-        public async Task<Walk> CreateWalkAsync( Walk walk )
-        {
-            await dbContext.Walks.AddAsync( walk );
-            await dbContext.SaveChangesAsync();
-            return walk;
-        }
 
-        public async Task<Walk?> DeleteWalkAsync( Guid id )
-        {
-            throw new NotImplementedException();
-        }
-
+        //GET ALL WALKS METHOD
         public async Task<List<Walk>> GetAllAsync()
 
         {
@@ -34,11 +24,21 @@ namespace NZWalks.API.Repositories
             return await dbContext.Walks.Include("Difficulty").Include( "Region" ).ToListAsync();
         }
 
+        //GET WALK BY ID METHOD
         public async Task<Walk?> GetWalkByIdAsync( Guid id )
         {
             return await dbContext.Walks.Include( "Difficulty" ).Include( "Region" ).FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        //CREATE METHOD
+        public async Task<Walk> CreateWalkAsync( Walk walk )
+        {
+            await dbContext.Walks.AddAsync( walk );
+            await dbContext.SaveChangesAsync();
+            return walk;
+        }
+
+        //PUT WALK BY ID METHOD
         public async Task<Walk?> UpdateWalknAsync( Guid id, Walk walk )
         {
             var existingWalk = await dbContext.Walks.FirstOrDefaultAsync( x => x.Id == id );
@@ -56,6 +56,23 @@ namespace NZWalks.API.Repositories
             existingWalk.RegionId = walk.RegionId;
 
             dbContext.SaveChangesAsync();
+
+            return existingWalk;
+        }
+
+        //DELETE METHOD
+        public async Task<Walk?> DeleteWalkAsync( Guid id )
+        {
+            var existingWalk = await dbContext.Walks.FirstOrDefaultAsync( y => y.Id == id );
+
+            if ( existingWalk == null )
+            {
+                return null;
+            }
+
+            dbContext.Walks.Remove( existingWalk );
+
+            await dbContext.SaveChangesAsync();
 
             return existingWalk;
         }
