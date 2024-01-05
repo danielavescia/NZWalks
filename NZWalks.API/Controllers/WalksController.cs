@@ -5,6 +5,8 @@ using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
+using System.Data.Entity;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace NZWalks.API.Controllers
@@ -24,6 +26,16 @@ namespace NZWalks.API.Controllers
             this.walkRepository = walkRepository;
         }
 
+        //GET ALL WALKS
+        [HttpGet]
+        public async Task<IActionResult> GetAllAsync( ) 
+        {
+            var walksDomainModel =  await walkRepository.GetAllAsync( );
+   
+            return Ok( mapper.Map<List<WalkDto>>( walksDomainModel ) );
+        }
+
+        //CREATE A NEW WALK
         [HttpPost]
         public async Task<IActionResult> CreateWalk( [FromBody] AddWalkRequestDto addWalkRequestDto ) 
         {
