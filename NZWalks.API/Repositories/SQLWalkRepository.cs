@@ -43,15 +43,15 @@ namespace NZWalks.API.Repositories
         {
             var existingWalk = await dbContext.Walks.FirstOrDefaultAsync( x => x.Id == id );
 
-            if ( existingWalk != null ) 
+            if ( existingWalk == null ) 
             {
                 return null;
             }
 
             existingWalk.NameTrail = walk.NameTrail;
             existingWalk.Description = walk.Description;
-            existingWalk.WalkImageUrl = walk.WalkImageUrl;
             existingWalk.Length = walk.Length;
+            existingWalk.WalkImageUrl = walk.WalkImageUrl;
             existingWalk.DifficultyId = walk.DifficultyId;
             existingWalk.RegionId = walk.RegionId;
 
