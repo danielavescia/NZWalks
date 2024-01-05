@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Catel.Data;
 using Microsoft.AspNetCore.Mvc;
+using NZWalks.API.CustomActionFilters;
 using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
@@ -59,12 +61,13 @@ namespace NZWalks.API.Controllers
 
         //POST: CREATES NEW REGION
         [HttpPost]
+        [ValidateModelAtributte] // Model Validation
         public async Task<IActionResult> CreateRegion( [FromBody] AddRegionDto regionDto )
         {
-
+  
             //Converting DTO to Domain Model
             var regionDomainModel = mapper.Map<Region>( regionDto );
-           
+
             //Using Domain Model to create a new Region to dbContext
             regionDomainModel = await regionRepository.CreateRegionAsync( regionDomainModel );
 
@@ -72,14 +75,17 @@ namespace NZWalks.API.Controllers
             var regionDTO = mapper.Map<RegionDto>( regionDomainModel );
 
             return CreatedAtAction( nameof( GetRegionById ), new { id = regionDTO.Id }, regionDTO );
+          
         }
 
 
         //UPDATE DATA OF SPECIFIC REGION
         [HttpPut]
         [Route( "{id:Guid}" )]
+        [ValidateModelAtributte] // Model Validation
         public async Task<IActionResult> UpdateRegionAsync( [FromRoute] Guid id, [FromBody] UpdateRegionRequestDto regionDto )
         {
+           
             //Convert Dto to Domain Model
             var regionDomainModel = mapper.Map<Region>( regionDto );
 
