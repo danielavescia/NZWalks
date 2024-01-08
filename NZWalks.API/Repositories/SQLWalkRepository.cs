@@ -2,6 +2,7 @@
 using NZWalks.API.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Models.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NZWalks.API.Repositories
 {
@@ -17,23 +18,34 @@ namespace NZWalks.API.Repositories
         }
 
         //GET ALL WALKS METHOD
-        public async Task<List<Walk>> GetAllAsync( string? filterOn = null, string? filterQuery = null )
+        public async Task<List<Walk>> GetAllAsync( string? filterOn = null, string? filterQuery = null, [FromQuery] string? sortBy = null, [FromQuery] bool isAscending = true )
 
         {
             //include method get Difficulty and Region data by the navigation property define in WALK Domain Model
-            //return await dbContext.Walks.Include("Difficulty").Include( "Region" ).ToListAsync();
-            var walksDomain = dbContext.Walks.Include( "Difficulty" ).Include( "Region" ).AsQueryable();
+            var walks = dbContext.Walks.Include( "Difficulty" ).Include( "Region" ).AsQueryable();
 
             //FILTERING
             if ( string.IsNullOrWhiteSpace(filterOn) == false  && string.IsNullOrWhiteSpace( filterQuery ) == false ) 
             {
                 if ( filterOn.Equals( "NameTrail", StringComparison.OrdinalIgnoreCase ) ) 
                 {
-                    walksDomain = walksDomain.Where( x => x.NameTrail.Contains( filterQuery ));
+                    walks = walks.Where( x => x.NameTrail.Contains( filterQuery ));
                 }
             }
 
-            return await walksDomain.ToListAsync();
+            if ( string.IsNullOrWhiteSpace( sortBy ) == false ) 
+            {
+                if ( sortBy.Equals( "NameTrail", StringComparison.OrdinalIgnoreCase ) )
+                {
+                    walks = isAscending ? walks.OrderBy( x => x.NameTrail ) : walks.OrderByDescending( x => x.NameTrail );
+                }
+                else if ( sortBy.Equals( "Length", StringComparison.OrdinalIgnoreCase ) ) 
+                {
+                    walks = isAscending ? walks.OrderBy( x => x.Length ) : walks.OrderByDescending( x => x.Length );
+                }
+            }
+
+            return await walks.ToListAsync();
         }
 
         //GET WALK BY ID METHOD
