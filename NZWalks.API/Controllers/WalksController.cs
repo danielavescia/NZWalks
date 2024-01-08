@@ -5,6 +5,7 @@ using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
+using System.Globalization;
 
 
 namespace NZWalks.API.Controllers
@@ -25,14 +26,15 @@ namespace NZWalks.API.Controllers
         }
 
         //GET ALL WALKS
-        //GET: /api/walks?filterOn=Name&filterQuery=Track
-        //GET: /api/walks?filterOn=Name&filterQuery=Track&sortBy=Name&isAcending=true
+        //GET: FILTERING /api/walks?filterOn=Name&filterQuery=Track
+        //GET: SORTING  /api/walks?filterOn=Name&filterQuery=Track&sortBy=Name&isAcending=true
+        //GET: SORTING  /api/walks?filterOn=Name&filterQuery=Track&sortBy=Name&isAcending=true&pageNumber=1&pageSize=10
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync( [FromQuery] string? filterOn, [FromQuery] string? filterQuery, [FromQuery] string? sortBy, [FromQuery] bool? isAscending)
+        public async Task<IActionResult> GetAllAsync( [FromQuery] string? filterOn, [FromQuery] string? filterQuery, [FromQuery] string? sortBy, [FromQuery] bool? isAscending, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000 )
         {
 
             //?? = if isAscending == null so isAscending == true
-            var walksDomainModel = await walkRepository.GetAllAsync( filterOn , filterQuery, sortBy, isAscending ?? true );
+            var walksDomainModel = await walkRepository.GetAllAsync( filterOn , filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize );
 
             return Ok( mapper.Map<List<WalkDto>>( walksDomainModel ) );
         }

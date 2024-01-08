@@ -18,7 +18,8 @@ namespace NZWalks.API.Repositories
         }
 
         //GET ALL WALKS METHOD
-        public async Task<List<Walk>> GetAllAsync( string? filterOn = null, string? filterQuery = null, [FromQuery] string? sortBy = null, [FromQuery] bool isAscending = true )
+        public async Task<List<Walk>> GetAllAsync( string? filterOn = null, string? filterQuery = null, 
+            [FromQuery] string? sortBy = null, [FromQuery] bool isAscending = true, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000 )
 
         {
             //include method get Difficulty and Region data by the navigation property define in WALK Domain Model
@@ -33,6 +34,7 @@ namespace NZWalks.API.Repositories
                 }
             }
 
+            //SORTING
             if ( string.IsNullOrWhiteSpace( sortBy ) == false ) 
             {
                 if ( sortBy.Equals( "NameTrail", StringComparison.OrdinalIgnoreCase ) )
@@ -45,7 +47,10 @@ namespace NZWalks.API.Repositories
                 }
             }
 
-            return await walks.ToListAsync();
+            //PAGINATION
+            var skipResults = ( pageNumber - 1 ) * pageSize;
+
+            return await walks.Skip( skipResults ).Take(pageSize).ToListAsync();
         }
 
         //GET WALK BY ID METHOD

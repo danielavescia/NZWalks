@@ -7,7 +7,8 @@ namespace NZWalks.API.Repositories
     {
         //GET METHOD THAT WILL BE USED BY THE CONTROLLER
         Task<List <Walk>> GetAllAsync( string? filterOn = null, string? filterQuery = null, 
-            [FromQuery] string? sortBy = null, [FromQuery] bool isAscending = true );
+            [FromQuery] string? sortBy = null, [FromQuery] bool isAscending = true,
+            [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000 );
 
         Task<Walk?> GetWalkByIdAsync( Guid id );
 
