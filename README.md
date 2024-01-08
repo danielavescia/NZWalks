@@ -8,12 +8,21 @@ Welcome to the New Zealand Regions and Walks Web API project! This project aims 
 API: Explore a wide range of walks available in New Zealand. Retrieve details such as name, description, length, images, difficulty, and regions.
 
 ## API Endpoints
-Regions:
-GET /api/regions: Retrieve a list of all regions.
-GET /api/regions/{id}: Get details about a specific region by ID.
-POST /api/regions: Create a new region.
-DELETE /api/regions/{id}: Delete a specific region by ID.
-PUT /api/regions/{id}: Update details about a specific region by ID.
+
+### Regions:
+* GET /api/regions: Retrieve a list of all regions.
+* GET /api/regions/{id}: Get details about a specific region by ID.
+* POST /api/regions: Create a new region.
+* DELETE /api/regions/{id}: Delete a specific region by ID.
+* PUT /api/regions/{id}: Update details about a specific region by ID.
+
+### Walks:
+* GET /api/walks: Retrieve a list of regions, sorted by NameTrail or Length or filtered by NameTrail.
+* GET /api/walks/{id}: Get details about a specific walk by ID.
+* POST /api/regions: Create a new walk.
+* DELETE /api/regions/{id}: Delete a specific walk by ID.
+* PUT /api/regions/{id}: Update details about a specific walk by ID.
+  
 
 ## Technologies Used
 - ASP.NET Core: The project is built using the ASP.NET Core framework, ensuring scalability, performance, and cross-platform compatibility.
