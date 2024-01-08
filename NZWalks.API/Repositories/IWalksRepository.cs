@@ -5,7 +5,7 @@ namespace NZWalks.API.Repositories
     public interface IWalksRepository
     {
         //GET METHOD THAT WILL BE USED BY THE CONTROLLER
-        Task<List <Walk>> GetAllAsync();
+        Task<List <Walk>> GetAllAsync(string? filterOn = null, string? filterQuery= null);
 
         Task<Walk?> GetWalkByIdAsync( Guid id );
 

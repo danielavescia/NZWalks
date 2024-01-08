@@ -25,10 +25,11 @@ namespace NZWalks.API.Controllers
         }
 
         //GET ALL WALKS
+        //GET: /api/walks?filterOn=Name&filterQuery=Track
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync( [FromQuery] string? filterOn, [FromQuery] string? filterQuery)
         {
-            var walksDomainModel = await walkRepository.GetAllAsync();
+            var walksDomainModel = await walkRepository.GetAllAsync( filterOn , filterQuery );
 
             return Ok( mapper.Map<List<WalkDto>>( walksDomainModel ) );
         }
@@ -71,7 +72,6 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         [Route( "{id:Guid}" )]
         [ValidateModelAtributte] // Model Validation
-
         public async Task<IActionResult> UpdateWalknAsync( [FromRoute] Guid id, [FromBody] UpdateWalkDto walkDTO )
         {
            
@@ -94,7 +94,6 @@ namespace NZWalks.API.Controllers
         //DELETE WALK BY ID
         [HttpDelete]
         [Route("{id:Guid}")]
-
         public async Task<IActionResult> Delete( [FromRoute] Guid id )
         {
             

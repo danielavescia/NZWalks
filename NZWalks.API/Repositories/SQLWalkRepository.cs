@@ -17,11 +17,23 @@ namespace NZWalks.API.Repositories
         }
 
         //GET ALL WALKS METHOD
-        public async Task<List<Walk>> GetAllAsync()
+        public async Task<List<Walk>> GetAllAsync( string? filterOn = null, string? filterQuery = null )
 
         {
             //include method get Difficulty and Region data by the navigation property define in WALK Domain Model
-            return await dbContext.Walks.Include("Difficulty").Include( "Region" ).ToListAsync();
+            //return await dbContext.Walks.Include("Difficulty").Include( "Region" ).ToListAsync();
+            var walksDomain = dbContext.Walks.Include( "Difficulty" ).Include( "Region" ).AsQueryable();
+
+            //FILTERING
+            if ( string.IsNullOrWhiteSpace(filterOn) == false  && string.IsNullOrWhiteSpace( filterQuery ) == false ) 
+            {
+                if ( filterOn.Equals( "NameTrail", StringComparison.OrdinalIgnoreCase ) ) 
+                {
+                    walksDomain = walksDomain.Where( x => x.NameTrail.Contains( filterQuery ));
+                }
+            }
+
+            return await walksDomain.ToListAsync();
         }
 
         //GET WALK BY ID METHOD
