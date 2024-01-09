@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Catel.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.API.CustomActionFilters;
 using NZWalks.API.Data;
@@ -11,6 +12,7 @@ namespace NZWalks.API.Controllers
 {
     [Route( "api/[controller]" )]
     [ApiController]
+    [Authorize]
 
     public class RegionsController : ControllerBase
     {

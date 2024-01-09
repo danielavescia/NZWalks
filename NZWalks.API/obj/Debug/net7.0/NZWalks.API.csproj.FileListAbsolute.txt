@@ -90,3 +90,4 @@ E:\Dani\Dani\SI\Unisinos\2- Meus_Projetos\NZWalks\NZWalks.API\bin\Debug\net7.0\M
 E:\Dani\Dani\SI\Unisinos\2- Meus_Projetos\NZWalks\NZWalks.API\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
 E:\Dani\Dani\SI\Unisinos\2- Meus_Projetos\NZWalks\NZWalks.API\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
 E:\Dani\Dani\SI\Unisinos\2- Meus_Projetos\NZWalks\NZWalks.API\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+E:\Dani\Dani\SI\Unisinos\2- Meus_Projetos\NZWalks\NZWalks.API\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
