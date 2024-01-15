@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder( args );
 
@@ -37,6 +38,22 @@ builder.Services.AddScoped<IWalksRepository, SQLWalkRepository>();
 //inject mapping into the controller 
 builder.Services.AddAutoMapper(typeof ( AutoMapperProfiles ) );
 
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>( "NzWalks" )
+    .AddEntityFrameworkStores<NzWalksAuthDbContext>()
+    .AddDefaultTokenProviders();
+
+//Configuring password requirements
+builder.Services.Configure<IdentityOptions>( options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+} );
 //adding authentication  and JWT bearer token to the service
 builder.Services.AddAuthentication( JwtBearerDefaults.AuthenticationScheme )
     .AddJwtBearer( options => options.TokenValidationParameters = new TokenValidationParameters
