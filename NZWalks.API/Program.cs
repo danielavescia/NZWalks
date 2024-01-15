@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Repositories;
 using NZWalks.API.Mappings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
@@ -32,8 +31,9 @@ builder.Services.AddDbContext<NzWalksAuthDbContext>( options =>
 } );
 
 
-builder.Services.AddScoped < IRegionRepository, SQLRegionRepository >();
+builder.Services.AddScoped<IRegionRepository, SQLRegionRepository >();
 builder.Services.AddScoped<IWalksRepository, SQLWalkRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>() ;
 
 //inject mapping into the controller 
 builder.Services.AddAutoMapper(typeof ( AutoMapperProfiles ) );
@@ -54,6 +54,7 @@ builder.Services.Configure<IdentityOptions>( options =>
     options.Password.RequiredLength = 6;
     options.Password.RequiredUniqueChars = 1;
 } );
+
 //adding authentication  and JWT bearer token to the service
 builder.Services.AddAuthentication( JwtBearerDefaults.AuthenticationScheme )
     .AddJwtBearer( options => options.TokenValidationParameters = new TokenValidationParameters
