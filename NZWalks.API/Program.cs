@@ -13,6 +13,8 @@ var builder = WebApplication.CreateBuilder( args );
 
 builder.Services.AddControllers();
 
+// Add swager
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen( options =>
@@ -34,6 +36,7 @@ builder.Services.AddDbContext<NzWalksAuthDbContext>( options =>
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository >();
 builder.Services.AddScoped<IWalksRepository, SQLWalkRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>() ;
+
 
 //inject mapping into the controller 
 builder.Services.AddAutoMapper(typeof ( AutoMapperProfiles ) );
@@ -57,17 +60,18 @@ builder.Services.Configure<IdentityOptions>( options =>
 
 //adding authentication  and JWT bearer token to the service
 builder.Services.AddAuthentication( JwtBearerDefaults.AuthenticationScheme )
-    .AddJwtBearer( options => options.TokenValidationParameters = new TokenValidationParameters
+    .AddJwtBearer( options =>
+    options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration ["Jwt: Issuer"],
-        ValidAudience = builder.Configuration ["Jwt: Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey( 
-            Encoding.UTF8.GetBytes( builder.Configuration ["Jwt:Key"] ))
-    });
+        ValidIssuer = builder.Configuration ["Jwt:Issuer"],
+        ValidAudience = builder.Configuration ["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes( builder.Configuration ["Jwt:Key"] ) )
+    } );
 
 var app = builder.Build();
 

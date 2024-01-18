@@ -17,8 +17,10 @@ namespace NZWalks.API.Repositories
 
         public string CreateJWTToken( IdentityUser user, List<string> roles )
         {
-            var claims = new List<Claim>();
-            claims.Add( new Claim( ClaimTypes.Email, user.Email ) );
+            var claims = new List<Claim>
+            {
+                new Claim( ClaimTypes.Email, user.Email )
+            };
 
             foreach ( var role in roles )
             {
@@ -33,7 +35,7 @@ namespace NZWalks.API.Repositories
                 configuration ["Jwt:Issuer"],
                 configuration ["Jwt:Audience"],
                 claims,
-                expires: DateTime.Now.AddMinutes( 30 ),
+                expires: DateTime.Now.AddMinutes( 55 ),
                 signingCredentials: credentials ); 
 
             return new JwtSecurityTokenHandler().WriteToken( token );
