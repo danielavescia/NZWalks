@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder( args );
 
@@ -19,8 +20,37 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen( options =>
 {
+
+    options.SwaggerDoc( "v1", new OpenApiInfo { Title = "Nz Walks API", Version = "v1" } );
     options.ResolveConflictingActions( apiDescriptions => apiDescriptions.First() );
+    options.AddSecurityDefinition( JwtBearerDefaults.AuthenticationScheme, new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = JwtBearerDefaults.AuthenticationScheme
+    } );
+
+    options.AddSecurityRequirement( new OpenApiSecurityRequirement
+    {
+        {
+        new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = JwtBearerDefaults.AuthenticationScheme
+            },
+            Scheme = "Oauth2",
+            Name = JwtBearerDefaults.AuthenticationScheme,
+            In = ParameterLocation.Header
+        },
+        new List<string>()
+    }
 } );
+} );
+
+    
 
 builder.Services.AddDbContext<NzWalksDbContext>( options =>
 {

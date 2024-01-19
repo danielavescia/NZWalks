@@ -29,7 +29,7 @@ namespace NZWalks.API.Controllers
 
         //GET ALL REGIONS
         [HttpGet]
-        [Authorize(Roles ="Reader")] // just authorized people can acess this controller
+        [Authorize( Roles = "Reader, Writer" )] // just authorized people can acess this controller
         public async Task<IActionResult> GetAll()
         {
             var regionsDomain = await regionRepository.GetAllAsync();
@@ -44,7 +44,7 @@ namespace NZWalks.API.Controllers
         //GET ONE SPECIFIC REGION BY ID
         [HttpGet]
         [Route( "{id:Guid}" )]
-        [Authorize( Roles = "Reader" )]
+        [Authorize( Roles = "Reader, Writer" )]
         public async Task<IActionResult> GetRegionById( [FromRoute] Guid id )
         {
             var regionDomain = await regionRepository.GetRegionByIdAsync( id );
