@@ -17,9 +17,11 @@ namespace NZWalks.API.Data
          * in db
         */
 
-        public DbSet<Difficulty> Difficulties { get; set; }
+        public DbSet<Difficulty> Difficulties { get; set; } 
         public DbSet<Region> Regions { get; set; }
         public DbSet<Walk> Walks { get; set; }
+        public DbSet<Image> Images { get; set; }  //Tables are created in the database with "Images" as the table name
+
 
         protected override void OnModelCreating( ModelBuilder modelBuilder ) 
         {
