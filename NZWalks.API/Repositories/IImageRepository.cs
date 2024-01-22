@@ -1,0 +1,11 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using NZWalks.API.Models.Domain;
+using NZWalks.API.Models.DTO;
+
+namespace NZWalks.API.Repositories
+{
+    public interface IImageRepository
+    {
+         Task<Image> UploadImage( Image imageUploaded );
+    }
+}

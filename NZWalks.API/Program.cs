@@ -7,12 +7,17 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using Catel.Services;
 
 var builder = WebApplication.CreateBuilder( args );
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddHttpContextAccessor();
+
+
 
 // Add swager
 
@@ -50,7 +55,16 @@ builder.Services.AddSwaggerGen( options =>
 } );
 } );
 
-    
+builder.Services.AddCors( options =>
+{
+    options.AddDefaultPolicy( builder =>
+    {
+        builder.WithOrigins( "https://localhost:7297/" );
+        builder.AllowAnyMethod();
+        builder.AllowAnyHeader();
+    } );
+} );
+
 
 builder.Services.AddDbContext<NzWalksDbContext>( options =>
 {
@@ -66,6 +80,7 @@ builder.Services.AddDbContext<NzWalksAuthDbContext>( options =>
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository >();
 builder.Services.AddScoped<IWalksRepository, SQLWalkRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>() ;
+builder.Services.AddScoped<IImageRepository, LocalImageRepository > ();
 
 
 //inject mapping into the controller 
@@ -111,6 +126,8 @@ if ( app.Environment.IsDevelopment() )
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
