@@ -8,10 +8,21 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Catel.Services;
+using Microsoft.Extensions.FileProviders;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder( args );
 
 // Add services to the container.
+
+//Provide minimum level of information -serilog
+var logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File( "Logs/NzWalks_Log.txt", rollingInterval: RollingInterval.Day )
+    .MinimumLevel.Warning()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddControllers();
 
@@ -55,15 +66,7 @@ builder.Services.AddSwaggerGen( options =>
 } );
 } );
 
-builder.Services.AddCors( options =>
-{
-    options.AddDefaultPolicy( builder =>
-    {
-        builder.WithOrigins( "https://localhost:7297/" );
-        builder.AllowAnyMethod();
-        builder.AllowAnyHeader();
-    } );
-} );
+
 
 
 builder.Services.AddDbContext<NzWalksDbContext>( options =>
@@ -134,6 +137,12 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseStaticFiles(new StaticFileOptions
+{ 
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+    RequestPath = "/Images" //Routing to https://localhost:7297/Images
+} );
 
 app.MapControllers();
 

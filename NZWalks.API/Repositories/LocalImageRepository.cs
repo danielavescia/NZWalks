@@ -20,7 +20,7 @@ namespace NZWalks.API.Repositories
 
         public async Task<Image> UploadImage( Image imageUploaded )
         {
-            var localFilePath = Path.Combine( webHostEnviroment.ContentRootPath, "ImagesFolder",
+            var localFilePath = Path.Combine( webHostEnviroment.ContentRootPath, "Images",
                 $"{imageUploaded.FileName}{imageUploaded.FileExtension}" );
 
             // Upload Image to Local Path
@@ -29,7 +29,7 @@ namespace NZWalks.API.Repositories
             await imageUploaded.File.CopyToAsync( stream ); 
 
 
-            var urlFilePath = $"{httpContextAccessor.HttpContext.Request.Scheme}://{httpContextAccessor.HttpContext.Request.Host}{httpContextAccessor.HttpContext.Request.PathBase}/ImagesFolder/{imageUploaded.FileName}{imageUploaded.FileExtension}";
+            var urlFilePath = $"{httpContextAccessor.HttpContext.Request.Scheme}://{httpContextAccessor.HttpContext.Request.Host}{httpContextAccessor.HttpContext.Request.PathBase}/Images/{imageUploaded.FileName}{imageUploaded.FileExtension}";
 
             imageUploaded.FilePath = urlFilePath;
 
