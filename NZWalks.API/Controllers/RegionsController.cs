@@ -7,6 +7,7 @@ using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
 using System.Text.Json;
+using NZWalks.API.Middlewares;
 
 namespace NZWalks.API.Controllers
 {
@@ -35,19 +36,12 @@ namespace NZWalks.API.Controllers
         [Authorize( Roles = "Reader, Writer" )] // just authorized people can acess this controller
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                throw new Exception("This is an exception test");
                 var regionsDomain = await regionRepository.GetAllAsync();
 
                 //Mapping RegionDomain to RegionDto
                 var regionsDto = mapper.Map<List<RegionDto>>( regionsDomain );
 
                 return Ok( regionsDto );
-            }catch ( Exception ex ) {
-                logger.LogError( ex, ex.Message );
-                throw;
-            }
 
         }
 

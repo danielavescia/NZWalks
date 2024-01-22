@@ -7,9 +7,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
-using Catel.Services;
 using Microsoft.Extensions.FileProviders;
 using Serilog;
+using Microsoft.AspNetCore.Diagnostics;
+using NZWalks.API.Middlewares;
+using ExceptionHandlerMiddleware = NZWalks.API.Middlewares.ExceptionHandlerMiddleware;
 
 var builder = WebApplication.CreateBuilder( args );
 
@@ -130,22 +132,19 @@ if ( app.Environment.IsDevelopment() )
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
-app.UseStaticFiles(new StaticFileOptions
-{ 
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
-    RequestPath = "/Images" //Routing to https://localhost:7297/Images
+app.UseStaticFiles( new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider( Path.Combine( Directory.GetCurrentDirectory(), "Images" ) ),
+    RequestPath = "/Images"
 } );
 
 app.MapControllers();
 
 app.Run();
-
-
