@@ -15,18 +15,18 @@ namespace NZWalks.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            List<RegionDto> response = new List<RegionDto>();
+            List<RegionDto> response = new ();
 
             try
             {
                 // Get All Regions from Web API
                 var client = httpClientFactory.CreateClient();
 
-                var httpResponseMessage = await client.GetAsync( "https://localhost:7081/api/regions" );
+                var httpResponseMessage = await client.GetAsync( "https://localhost:7297/api/Regions" );
 
                 httpResponseMessage.EnsureSuccessStatusCode();
 
-                response.AddRange( await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<RegionDto>>() );
+               response.AddRange( await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<RegionDto>>() );
             }
             catch ( Exception ex )
             {
@@ -34,6 +34,12 @@ namespace NZWalks.UI.Controllers
             }
 
             return View( response );
+        }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
         }
     }
 }

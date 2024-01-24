@@ -33,7 +33,7 @@ namespace NZWalks.API.Controllers
 
         //GET ALL REGIONS
         [HttpGet]
-        [Authorize( Roles = "Reader, Writer" )] // just authorized people can acess this controller
+        //[Authorize( Roles = "Reader, Writer" )] // just authorized people can acess this controller
         public async Task<IActionResult> GetAll()
         {
                 var regionsDomain = await regionRepository.GetAllAsync();
