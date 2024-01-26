@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NzWalks.UI.Models;
 using NzWalks.UI.Models.DTO;
+using System.Text;
+using System.Text.Json;
 
 namespace NZWalks.UI.Controllers
 {
@@ -40,6 +43,39 @@ namespace NZWalks.UI.Controllers
         public IActionResult Add()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add( AddRegionViewModel regionModel )
+        {
+            var client = httpClientFactory.CreateClient();
+            var httpRequestMessage = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri( "https://localhost:7297/api/Regions" ),
+                Content = new StringContent( JsonSerializer.Serialize( regionModel ), Encoding.UTF8, "application/json" )
+
+            };
+
+            var httpResponseMessage = await client.SendAsync( httpRequestMessage );
+
+            httpResponseMessage.EnsureSuccessStatusCode();
+
+            var response = await httpResponseMessage.Content.ReadFromJsonAsync<RegionDto>();
+
+            if ( response != null ) 
+            {
+                return RedirectToAction("Index", "Regions");
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit( Guid id ) 
+        { 
+            ViewBag.Id = id;
+            return View( id );
         }
     }
 }

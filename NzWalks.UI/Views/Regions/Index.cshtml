@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-
+﻿
 @{
 }
 @model IEnumerable<NzWalks.UI.Models.DTO.RegionDto>
@@ -10,6 +7,10 @@
 
 <div class="d-flex justify-content-end">
     <a class="btn btn-primary" asp-controller="Regions" asp-action="Add">Add Region</a>
+</div>
+
+<div class="d-flex justify-content-end">
+    <a class="btn btn-terciary" asp-controller="Regions" asp-action="Delete">Delete Region</a>
 </div>
 
 <table class="table table-bordered">
