@@ -3,25 +3,26 @@
 @model NzWalks.UI.Models.AddRegionViewModel
 
 <h1 class="mt-3 font-weight-bold text-uppercase text-center">Add Region</h1>
-<form method="post" class="mt-3">
-    <div class="mt-3"></div>
+
+<form method="post">
 
     <div class="mt-3">
-        <label class="form-label"> Code</label>
-        <input type="text" class="form-control" asp-for= "Code" />
-   </div>
+        <label class="form-label">Code</label>
+        <input type="text" class="form-control" asp-for="Code" />
+    </div>
 
     <div class="mt-3">
-        <label class="form-label"> Name</label>
+        <label class="form-label">Name</label>
         <input type="text" class="form-control" asp-for="Name" />
     </div>
 
     <div class="mt-3">
-        <label class="form-label"> Image</label>
+        <label class="form-label">Image URL</label>
         <input type="text" class="form-control" asp-for="RegionImageUrl" />
     </div>
+
     <div class="mt-3">
-        <button type="submit" class="btn btn-secondary"> Save</button>
-        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
 
 </form>
